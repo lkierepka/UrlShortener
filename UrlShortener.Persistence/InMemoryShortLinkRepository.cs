@@ -1,4 +1,6 @@
 using System.Collections.Concurrent;
+using UrlShortener.Exceptions;
+using UrlShortener.Models;
 
 namespace UrlShortener.Persistence;
 

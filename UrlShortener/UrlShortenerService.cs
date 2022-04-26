@@ -1,3 +1,8 @@
+using System.Text.RegularExpressions;
+using UrlShortener.Exceptions;
+using UrlShortener.Models;
+using UrlShortener.Persistence;
+
 namespace UrlShortener;
 
 public class UrlShortenerService
@@ -6,7 +11,8 @@ public class UrlShortenerService
     private readonly IShortLinkRepository _shortLinkRepository;
     private readonly IShortLinkUsageHistoryRepository _usageHistoryRepository;
 
-    public UrlShortenerService(IIdentifierGenerator identifierGenerator, IShortLinkRepository shortLinkRepository, IShortLinkUsageHistoryRepository usageHistoryRepository)
+    public UrlShortenerService(IIdentifierGenerator identifierGenerator, IShortLinkRepository shortLinkRepository,
+        IShortLinkUsageHistoryRepository usageHistoryRepository)
     {
         _identifierGenerator = identifierGenerator;
         _shortLinkRepository = shortLinkRepository;
@@ -41,6 +47,8 @@ public class UrlShortenerService
 
     private void Validate(ShortenLinkRequest request)
     {
-        // TODO Validate url
+        var urlRegex = new Regex("^(ftp|http|https):\\/\\/[^ \"]+$");
+        if (!urlRegex.IsMatch(request.Url))
+            throw new ValidationException($"{request.Url} is not a valid url");
     }
 }

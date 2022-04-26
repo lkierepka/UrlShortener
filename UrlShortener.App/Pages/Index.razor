@@ -3,6 +3,7 @@
 <PageTitle>Weather forecast</PageTitle>
 
 @using UrlShortener.App.Data
+@using UrlShortener.Models
 @inject UrlShortenerService UrlShortenerService
 @inject NavigationManager NavigationManager
 <PageTitle>Index</PageTitle>
@@ -10,11 +11,11 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-<EditForm Model="@_shortLinkModel" OnValidSubmit="@ShortenUrl">
+<EditForm Model="@_newShortLinkModel" OnValidSubmit="@ShortenUrl">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
-    <InputText id="name" @bind-Value="_shortLinkModel.Url"/>
+    <InputText id="name" @bind-Value="_newShortLinkModel.Url"/>
     @* TODO Change to some easily copyable format *@
     <a href=@FormatUrl(_shortLink?.Identifier)>@FormatUrl(_shortLink?.Identifier)</a>
 
@@ -64,7 +65,7 @@ else
 
 
 @code {
-    private ShortLinkModel _shortLinkModel = new();
+    private NewShortLinkModel _newShortLinkModel = new();
     private ShortLink? _shortLink;
 
     private List<ShortLink>? _links;
@@ -76,8 +77,8 @@ else
 
     private async void ShortenUrl()
     {
-        _shortLink = await UrlShortenerService.ShortenLink(new ShortenLinkRequest { Url = _shortLinkModel.Url });
-        _shortLinkModel = new ShortLinkModel();
+        _shortLink = await UrlShortenerService.ShortenLink(new ShortenLinkRequest { Url = _newShortLinkModel.Url! });
+        _newShortLinkModel = new NewShortLinkModel();
         await LoadLinks();
     }
 

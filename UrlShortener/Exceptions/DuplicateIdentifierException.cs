@@ -1,4 +1,4 @@
-namespace UrlShortener;
+namespace UrlShortener.Exceptions;
 
 public class DuplicateIdentifierException : Exception
 {
