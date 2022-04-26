@@ -35,6 +35,8 @@ else
             <th>Short url</th>
             <th>Long url</th>
             <th>Created date</th>
+            <th>Usage count</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -49,6 +51,7 @@ else
                     <a href=@link.LongUrl>@link.LongUrl</a>
                 </td>
                 <td>@link.Timestamp</td>
+                <td>@link.UsageCount</td>
                 <td>
                     <button onclick=@Delete(link.Identifier)>Delete</button>
                 </td>

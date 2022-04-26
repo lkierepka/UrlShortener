@@ -15,8 +15,8 @@ public class RedirectController : Controller
     [HttpGet("/{identifier:length(8)}")]
     public async Task<IActionResult> RedirectToLong(string identifier)
     {
-        // TODO Save info about request
-        var shortLink = await _urlShortenerService.GetShortLink(identifier);
-        return RedirectPermanent(shortLink is null ? "/not-found" : shortLink.LongUrl);
+        // TODO Save/Log info about request
+        var shortLink = await _urlShortenerService.Redirect(identifier);
+        return RedirectPermanent(shortLink ?? "/not-found");
     }
 }

@@ -12,6 +12,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<UrlShortenerService>();
 
 builder.Services.AddTransient<IShortLinkRepository, InMemoryShortLinkRepository>();
+builder.Services.AddTransient<IShortLinkUsageHistoryRepository, InMemoryShortLinkRepository>();
 builder.Services.AddTransient<IIdentifierGenerator, IdentifierGenerator>();
 // TODO Interface?
 builder.Services.AddTransient<UrlShortenerService>();

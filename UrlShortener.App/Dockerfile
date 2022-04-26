@@ -6,6 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["UrlShortener.App/UrlShortener.App.csproj", "UrlShortener.App/"]
+COPY ["UrlShortener.Persistence/UrlShortener.Persistence.csproj", "UrlShortener.Persistence/"]
+COPY ["UrlShortener/UrlShortener.csproj", "UrlShortener/"]
 RUN dotnet restore "UrlShortener.App/UrlShortener.App.csproj"
 COPY . .
 WORKDIR "/src/UrlShortener.App"
