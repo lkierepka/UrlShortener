@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.HttpOverrides;
 using UrlShortener;
-using UrlShortener.App.Data;
 using UrlShortener.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +17,10 @@ builder.Services.AddTransient<UrlShortenerService>();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

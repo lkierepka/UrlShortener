@@ -23,8 +23,7 @@ public class RedirectController : Controller
         var shortLink = await _urlShortenerService.Redirect(identifier);
         var redirectTo = shortLink ?? "/not-found";
         _logger.LogInformation("Redirecting client {ClientIp} from {ShortUrl} to {TargetUrl}",
-            HttpContext.Connection.RemoteIpAddress, Request.GetDisplayUrl(),
-            Request.Host.ToUriComponent() + redirectTo);
+            HttpContext.Connection.RemoteIpAddress, Request.GetDisplayUrl(), redirectTo);
         return RedirectPermanent(redirectTo);
     }
 }
