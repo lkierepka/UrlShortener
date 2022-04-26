@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Url shortener</PageTitle>
 
 @using UrlShortener.App.Data
 @using UrlShortener.Models
@@ -8,16 +8,16 @@
 @inject NavigationManager NavigationManager
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Url shortener</h1>
 
-Welcome to your new app.
+Enter url to shorten
 <EditForm Model="@_newShortLinkModel" OnValidSubmit="@ShortenUrl">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
     <InputText id="name" @bind-Value="_newShortLinkModel.Url"/>
 
-    <button type="submit">Submit</button>
+    <button type="submit">Shorten</button>
 </EditForm>
 
 @if (_shortLink != null)
