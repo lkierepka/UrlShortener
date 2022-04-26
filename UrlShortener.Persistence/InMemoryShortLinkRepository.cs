@@ -40,7 +40,6 @@ public class InMemoryShortLinkRepository : IShortLinkRepository, IShortLinkUsage
 
     public Task DeleteLink(string identifier)
     {
-        // TODO add some feedback
         ShortLinks.TryRemove(identifier, out _);
         UsageHistory.TryRemove(identifier, out _);
         return Task.CompletedTask;

@@ -16,11 +16,15 @@ Welcome to your new app.
     <ValidationSummary/>
 
     <InputText id="name" @bind-Value="_newShortLinkModel.Url"/>
-    @* TODO Change to some easily copyable format *@
-    <a href=@FormatUrl(_shortLink?.Identifier)>@FormatUrl(_shortLink?.Identifier)</a>
 
     <button type="submit">Submit</button>
 </EditForm>
+
+@if (_shortLink != null)
+{
+    <div>Here is your short url: </div>
+    <code>@FormatUrl(_shortLink?.Identifier)</code>
+}
 
 @if (_links == null)
 {
@@ -44,7 +48,6 @@ else
         @foreach (var link in _links)
         {
             <tr>
-                @* TODO format the identifier to include the domain *@
                 <td>
                     <a href=@FormatUrl(link.Identifier)>@FormatUrl(link.Identifier)</a>
                 </td>
@@ -102,4 +105,5 @@ else
             await LoadLinks();
         };
     }
+
 }

@@ -18,8 +18,6 @@ public class RedirectController : Controller
     [HttpGet("/{identifier:length(8)}")]
     public async Task<IActionResult> RedirectToLong(string identifier)
     {
-        // TODO Save/Log info about request
-
         var shortLink = await _urlShortenerService.Redirect(identifier);
         var redirectTo = shortLink ?? "/not-found";
         _logger.LogInformation("Redirecting client {ClientIp} from {ShortUrl} to {TargetUrl}",
