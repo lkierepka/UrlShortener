@@ -5,4 +5,5 @@ public class ShortLink
     public Guid Id { get; set; }
     public string Identifier { get; set; }
     public string LongUrl { get; set; }
+    public DateTime Timestamp { get; set; }
 }

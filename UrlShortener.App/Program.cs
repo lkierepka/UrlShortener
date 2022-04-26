@@ -1,13 +1,20 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using UrlShortener;
 using UrlShortener.App.Data;
+using UrlShortener.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<UrlShortenerService>();
+
+builder.Services.AddTransient<IShortLinkRepository, InMemoryShortLinkRepository>();
+builder.Services.AddTransient<IIdentifierGenerator, IdentifierGenerator>();
+// TODO Interface?
+builder.Services.AddTransient<UrlShortenerService>();
 
 var app = builder.Build();
 
@@ -26,6 +33,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapControllers();
 app.MapFallbackToPage("/_Host");
 
 app.Run();

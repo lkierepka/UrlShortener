@@ -1,9 +1,101 @@
 ﻿@page "/"
 
+<PageTitle>Weather forecast</PageTitle>
+
+@using UrlShortener.App.Data
+@inject UrlShortenerService UrlShortenerService
+@inject NavigationManager NavigationManager
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+<EditForm Model="@_shortLinkModel" OnValidSubmit="@ShortenUrl">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+    <InputText id="name" @bind-Value="_shortLinkModel.Url"/>
+    @* TODO Change to some easily copyable format *@
+    <a href=@FormatUrl(_shortLink?.Identifier)>@FormatUrl(_shortLink?.Identifier)</a>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (_links == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Short url</th>
+            <th>Long url</th>
+            <th>Created date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var link in _links)
+        {
+            <tr>
+                @* TODO format the identifier to include the domain *@
+                <td>
+                    <a href=@FormatUrl(link.Identifier)>@FormatUrl(link.Identifier)</a>
+                </td>
+                <td>
+                    <a href=@link.LongUrl>@link.LongUrl</a>
+                </td>
+                <td>@link.Timestamp</td>
+                <td>
+                    <button onclick=@Delete(link.Identifier)>Delete</button>
+                </td>
+                <td></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private ShortLinkModel _shortLinkModel = new();
+    private ShortLink? _shortLink;
+
+    private List<ShortLink>? _links;
+
+    protected override async void OnInitialized()
+    {
+        await LoadLinks();
+    }
+
+    private async void ShortenUrl()
+    {
+        _shortLink = await UrlShortenerService.ShortenLink(new ShortenLinkRequest { Url = _shortLinkModel.Url });
+        _shortLinkModel = new ShortLinkModel();
+        await LoadLinks();
+    }
+
+    private async Task LoadLinks()
+    {
+        _links = await UrlShortenerService.GetShortLinks();
+        StateHasChanged();
+    }
+
+    private string FormatUrl(string? identifier)
+    {
+        return identifier == null ? string.Empty : NavigationManager.ToAbsoluteUri(identifier).ToString();
+    }
+
+    private Action Delete(string linkIdentifier)
+    {
+        return async () =>
+        {
+    // Some message about the deletion?
+            await UrlShortenerService.DeleteLink(linkIdentifier);
+            await LoadLinks();
+        };
+    }
+}
