@@ -16,6 +16,7 @@ public class RedirectController : Controller
     }
 
     [HttpGet("/{identifier:length(8)}")]
+    [ResponseCache(NoStore = true)] // Might be unnecessary depending on the actual requirements regarding usage counting
     public async Task<IActionResult> RedirectToLong(string identifier)
     {
         var shortLink = await _urlShortenerService.Redirect(identifier);
